@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Abel&family=Bebas+Neue&display=swap');
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+::-moz-focus-inner {
+    border: none;
+}
+
+body {
+    background-color: black;
+    background: url(../img/searchbg.jpg);
+    font-family: 'Abel', sans-serif;
+    -webkit-transition: background-image 0.2s ease-in-out;
+    transition: background-image 0.5s ease-in-out;
+}
+
+.mainbox {
+    /* prorções */
+    padding: 30px;
+
+    /* posicionamento */
+    position: absolute;
+    top: 50%;
+    left: 0; right: 0;
+    margin: auto;
+
+    /* estilização */
+    border-radius: 30px;
+    background-color: rgb(0,0,0,0.7);
+    box-shadow: 0px 0px 30px black;
+    transition: 0.3s;
+}
+
+.mainbox.first {
+    width: 500px;
+    margin-top: -100px;
+}
+
+.mainbox.second {
+    width: 300px;
+    margin-top: -150px;
+}
+
+.procurar {
+    height: 180px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.procurar h1 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: normal;
+    letter-spacing: 10px;
+    font-family: 'Bebas Neue', cursive;
+    text-transform: uppercase;
+    color: white;
+}
+
+.procurar .infobox {
+    display: none;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 5px;
+    color: grey;
+    background-color: rgb(0,0,0,0.1);
+}
+
+.procurar .infobox.denied {
+    background-color: rgb(255,0,0,0.2);
+    color: darkred;
+}
+
+.procurar input {
+    /* proporções */
+    width: 100%;
+    height: 40px;
+    padding: 10px 2px;
+    margin-bottom: 10px;
+
+    /* estilização */
+    color: white;
+    outline: none;
+    background: none;
+    border: 1px solid #fff;
+    border-width: 0 0 1px 0;
+}
+
+.procurar .botoes {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+}
+
+.procurar .botoes button {
+    /* proporções */
+    width: 48%;
+    padding: 15px;
+
+    /* estilização */
+    border: none;
+    color: white;
+    text-transform: uppercase;
+    font-family: 'Abel', sans-serif;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background 0.3s;
+    background: none;
+}
+
+.procurar .botoes button:hover {
+    background-color: rgb(156, 156, 156);
+}
+
+/* TELA RESULTADO */
+.resultado {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 300px;
+    color: white;
+}
+
+.resultado .nomecidade {
+    font-size: 50px;
+    width: 100%;
+    height: 55px;
+}
+
+.resultado .nomecidade span {
+    margin-left: 5px;
+    font-size: 20px;
+    letter-spacing: 2px;
+}
+
+.resultado .temperatura {
+    font-size: 150px;
+    font-family: 'Bebas Neue', cursive;
+    font-weight: normal;
+    margin-top: 20px;
+    color: var(--temperatura);
+    margin: 20px 0;
+    padding: 0;
+    height: 120px;
+    line-height: 130px;
+}
+
+.resultado .temperatura span {
+    font-size: 40px;
+}
+
+.resultado .descricao-tempo {
+    width: 100%;
+    font-size: 17px;
+    text-transform: capitalize;
+    margin: 0;
+    padding: 0;
+}
+
+.resultado .subsessoes {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.resultado .subsessoes fieldset {
+    width: 48%;
+    height: 70px;
+    padding: 10px 0;
+    border-radius: 10px;
+    text-align: center;
+    border: none;
+    background-color: rgb(0,0,0,0.5);
+}
+
+.resultado .subsessoes fieldset h3 {
+    font-size: 11px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    font-weight: normal;
+}
+
+.resultado .subsessoes fieldset h2 {
+    font-size: 25px;
+    letter-spacing: 2px;
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 1300px){
+    body {background-size: min(1300px);}
+}
+
+@media (min-width: 1301px){
+    body {background-size: 100%;}
+}

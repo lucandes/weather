@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style/index.css">
+    <title>Clima</title>
+</head>
+<body>
+    <div class="mainbox first">
+        <section class="procurar">
+            <h1>Weather</h1>
+
+            <div class="infobox">Carregando resultado...</div>
+            <input type="text" class="entrada" placeholder="Insira o nome da cidade">
+
+            <div class="botoes">
+                <button class="geolocalizacao">Geolocalização</button>
+                <button class="buscar">Buscar</button>
+            </div>
+        </section>
+            
+        <section class="resultado hidden">
+            <h2 class="nomecidade"></h2>
+            <p class="descricao-tempo"></p>
+
+            <h1 class="temperatura"></h1>
+            
+
+            <div class="subsessoes">
+                <fieldset class="sensacao">
+                    <h3>Sensação Térmica</h3>
+                    <h2 class="temperatura-sensacao"></h2>
+                </fieldset>
+    
+                <fieldset class="umidade">
+                    <h3>Umidade</h3>
+                    <h2 class="valor-umidade"></h2>
+                </fieldset>
+            </div>
+        </section>
+    </div>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>
