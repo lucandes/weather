@@ -59,7 +59,7 @@ body {
     font-size: 30px;
     font-weight: normal;
     letter-spacing: 10px;
-    font-family: 'Bebas Neue', cursive;
+    font-family: 'Bebas Neue', sans-serif;
     text-transform: uppercase;
     color: white;
 }
@@ -140,13 +140,17 @@ body {
 }
 
 .resultado .retornar {
-    font-size: 13px;
-    font-weight: lighter;
+    font-size: 45px;
     text-transform: uppercase;
     position: absolute;
-    bottom: -25px; left: 0px;
+    top: -10px; left: 0px;
     cursor: pointer;
-    text-shadow: 0 0 5px rgb(0,0,0,0.5);
+    /* text-shadow: 1px 1px 5px black; */
+    transition: 0.2s;
+}
+
+.resultado .retornar:hover {
+    transform: scale(1.03);
 }
 
 .resultado .retornar span {
@@ -178,7 +182,7 @@ body {
 
 .resultado .temperatura {
     font-size: 150px;
-    font-family: 'Bebas Neue', cursive;
+    font-family: 'Bebas Neue', sans-serif;
     font-weight: normal;
     margin-top: 20px;
     color: var(--temperatura);
@@ -226,6 +230,18 @@ body {
 .resultado .subsessoes fieldset h2 {
     font-size: 25px;
     letter-spacing: 2px;
+}
+
+a, a:visited {
+    text-decoration: none;
+    color: white;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    display: block;;
+    position: absolute;
+    right: 5px; bottom: 5px;
+    font-weight: lighter;
 }
 
 .hidden {

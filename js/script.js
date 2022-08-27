@@ -20,13 +20,6 @@ entrada.addEventListener('keyup', e => {
 
 botao_buscar.addEventListener('click', () => { if (entrada.value != '') startRequest(); })
 
-function startRequest() {
-    infobox.classList.remove('denied');
-    infobox.classList.add('show');
-    infobox.innerHTML = 'Carregando resultados...';
-    requestAPI(entrada.value);
-}
-
 retornar.addEventListener('click', () => {
     document.querySelector('.procurar').classList.toggle('hidden');
     document.querySelector('.resultado').classList.toggle('hidden');
@@ -39,16 +32,35 @@ retornar.addEventListener('click', () => {
     body.style.backgroundImage = 'url(../img/searchbg.jpg)';
 })
 
-async function requestAPI(query){
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${query}&units=metric&lang=pt_br&appid=${apiKey}`)
+geolocalizacao.addEventListener('click', () => {
+    if (navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(onsucess, infobox_geoloc_error);
+    }else {
+        infobox_geoloc_indisponivel();
+    }
+})
+
+function onsucess(position){
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    infobox_carregando();
+    requestAPI(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=pt_br&appid=${apiKey}`)
+}
+
+function startRequest() {
+    infobox_carregando();
+    requestAPI(`https://api.openweathermap.org/data/2.5/weather?q=${entrada.value}&units=metric&lang=pt_br&appid=${apiKey}`);
+}
+
+async function requestAPI(request){
+    await fetch(request)
         .then(
         response => response.json())
             .then(cidade => {
                 let notfound = cidade.cod == '404';
 
                 if (notfound){
-                    infobox.classList.add('denied')
-                    infobox.innerHTML = 'Ooops! Cidade não encontrada. Tente novamente.';
+                    infobox_semresultados();
                 }else{
                     console.log(cidade);
                     container.classList.remove('first');
@@ -71,20 +83,35 @@ async function requestAPI(query){
 
                     let iconcode = cidade.weather[0].icon;
 
-                    icone.innerHTML = '<img src="http://openweathermap.org/img/wn/' + iconcode + '.png" alt="weather icon">';
+                    icone.innerHTML = '<img src="http://openweathermap.org/img/wn/' 
+                        + iconcode + '.png" alt="weather icon" title="Ícone de Clima">';
+                    
                     body.style.backgroundImage = 'url(../img/' + iconcode + '.jpg)';
-                    // body.style.backgroundSize = 'min(1400px)';
+
                     // screen change 
                     document.querySelector('.procurar').classList.toggle('hidden');
                     document.querySelector('.resultado').classList.toggle('hidden');
                 }
             })
-            ;
-    
-    // await let geoloc = `http://api.positionstack.com/v1/forward?access_key=${apiKey}&query=${cidade}`;
-    // fetch(geoloc).then(response => (console.log(response.json())));
+}
 
-    // let api = 'https://api.openweathermap.org/data/2.5/weather?q={${cidade}}&appid={7b311962297a04ba68c3b5f0737ab5ba}}';
-    // fetch(api).then(response => (console.log(response.json())));
+function infobox_carregando(){
+    infobox.innerHTML = 'Carregando resultados...';
+    infobox.classList.remove('denied');
+    infobox.classList.add('show');
+}
 
+function infobox_semresultados(){
+    infobox.innerHTML = 'Ooops! Cidade não encontrada. Tente novamente.';
+    infobox.classList.add('denied')
+}
+
+function infobox_geoloc_error(){
+    infobox.innerHTML = 'Erro ao buscar a posição atual do dispositivo';
+    infobox.classList.add('denied');
+}
+
+function infobox_geoloc_indisponivel(){
+    infobox.innerHTML = 'O navegador não suporta o serviço de geolocalização';
+    infobox.classList.add('denied');   
 }
