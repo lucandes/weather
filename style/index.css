@@ -10,8 +10,10 @@
 }
 
 body {
+    min-width: 350px;
     background-color: black;
     background: url(../img/searchbg.jpg);
+    background-position: center top;
     font-family: 'Abel', sans-serif;
     -webkit-transition: background-image 0.2s ease-in-out;
     transition: background-image 0.5s ease-in-out;
@@ -20,6 +22,7 @@ body {
 .mainbox {
     /* prorções */
     padding: 30px;
+    min-width: 300px;
 
     /* posicionamento */
     position: absolute;
@@ -31,18 +34,17 @@ body {
     border-radius: 30px;
     background-color: rgb(0,0,0,0.7);
     box-shadow: 0px 0px 30px black;
-    transition: 0.3s;
+
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
 
 .mainbox.first {
     width: 500px;
-    margin-top: -100px;
 }
 
 .mainbox.second {
-    min-width: 280px;
     max-width: fit-content;
-    margin-top: -150px;
 }
 
 .procurar {
@@ -248,10 +250,21 @@ a, a:visited {
     display: none;
 }
 
-@media (max-width: 1300px){
-    body {background-size: min(1300px);}
-}
+@media (max-width: 600px){
+    .mainbox.first {
+        width: 80%;
+        height: 300px;
+    }
 
-@media (min-width: 1301px){
-    body {background-size: 100%;}
+    .procurar {
+        height: 100%;
+    }
+
+    .procurar .botoes {
+        flex-direction: column;
+    }
+
+    .procurar .botoes button {
+        width: 100%;
+    }
 }
