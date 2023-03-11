@@ -44,16 +44,20 @@ function onsucess(position){
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
     infobox_carregando();
-    requestAPI(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=pt_br&appid=${apiKey}`)
+    requestWeatherAPI(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=pt_br&appid=${apiKey}`)
 }
 
-function startRequest() {
+async function startRequest() {
     infobox_carregando();
-    requestAPI(`https://api.openweathermap.org/data/2.5/weather?q=${entrada.value}&units=metric&lang=pt_br&appid=${apiKey}`);
+    let cityName = entrada.value;
+    let location = await requestWeatherAPI(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&lang=pt_br&appid=${apiKey}`);
+    const cityDetails = await requestCitiesAPI(cityName);
+    console.log(cityDetails['data']);
+    
 }
 
-async function requestAPI(request){
-    await fetch(request)
+async function requestWeatherAPI(request){
+    return await fetch(request)
         .then(
         response => response.json())
             .then(cidade => {
@@ -88,11 +92,48 @@ async function requestAPI(request){
                     
                     body.style.backgroundImage = 'url(../img/' + iconcode + '.jpg)';
 
+                    cityDetailsXML(cidade.name);
+
                     // screen change 
                     document.querySelector('.procurar').classList.toggle('hidden');
                     document.querySelector('.resultado').classList.toggle('hidden');
                 }
             })
+}
+
+async function requestCitiesAPI(cityName){
+    let options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': 'fbd67195e6mshe076c75e69cd312p13f294jsnb45fc9476bfc',
+            'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com'
+        }
+    };
+
+    return await fetch(`https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=${cityName}`, options)
+        .then(response => response.json())
+        .then(response => {
+            return response;
+        })
+}
+
+/**
+ * Returns informations about current time, time zone and date.
+ * @param {*} cityCode The city id (either native id or wikiDataId)
+ */
+async function requestCityTimeAPI(cityCode){
+    let options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': 'fbd67195e6mshe076c75e69cd312p13f294jsnb45fc9476bfc',
+            'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com'
+        }
+    };
+    
+    await fetch(`https://wft-geo-db.p.rapidapi.com/v1/geo/cities/${cityCode}/dateTime`, options)
+        .then(response => response.json())
+        .then(response => {return response})
+        .catch(err => console.error(err));
 }
 
 function infobox_carregando(){
@@ -114,4 +155,32 @@ function infobox_geoloc_error(){
 function infobox_geoloc_indisponivel(){
     infobox.innerHTML = 'O navegador não suporta o serviço de geolocalização';
     infobox.classList.add('denied');   
+}
+
+function cityDetailsXML(cidade){
+    let data = "{\n    \"city\": \""+cidade+"\"\n}";
+    let request = new XMLHttpRequest();
+    request.withCredentials = true;
+    request.onload = () => {
+        if (request.status == 200){
+            console.log(JSON.parse(request.response));
+        }else {
+            console.log('fudeu');
+        }
+    }
+}
+
+async function cityDetails(cidade){
+    let raw = {"city": 'london'};
+    
+    let options = {
+        method: 'POST',
+        body: raw,
+        redirect: 'follow'
+    };
+
+    await fetch(`https://countriesnow.space/api/v0.1/countries/population/cities/`, options)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
 }
